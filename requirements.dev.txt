@@ -11,10 +11,12 @@ asyncio==3.4.3
 attrs==19.1.0             # via aiohttp, flake8-mypy
 auth0-python==3.9.0
 autopep8==1.4.4
+bleach==3.1.0             # via readme-renderer
 certifi==2019.6.16        # via requests
 cfgv==2.0.0               # via pre-commit
 chardet==3.0.4            # via aiohttp, requests
 click==7.0                # via pip-tools
+docutils==0.14            # via readme-renderer
 entrypoints==0.3          # via flake8
 flake8-mypy==17.8.0
 flake8==3.7.8
@@ -27,15 +29,26 @@ mypy-extensions==0.4.1    # via mypy
 mypy==0.711
 nodeenv==1.3.3            # via pre-commit
 pip-tools==3.8.0
+pkginfo==1.5.0.1          # via twine
 pre-commit==1.17.0
 pycodestyle==2.5.0        # via autopep8, flake8
 pyflakes==2.1.1           # via flake8
+pygments==2.4.2           # via readme-renderer
 pyyaml==5.1.1             # via aspy.yaml, pre-commit
-requests==2.22.0          # via auth0-python
-six==1.12.0               # via cfgv, pip-tools, pre-commit
+readme-renderer==24.0     # via twine
+requests-toolbelt==0.9.1  # via twine
+requests==2.22.0          # via auth0-python, requests-toolbelt, twine
+six==1.12.0               # via bleach, cfgv, pip-tools, pre-commit, readme-renderer
 toml==0.10.0              # via pre-commit
+tqdm==4.32.2              # via twine
+twine==1.13.0
 typed-ast==1.4.0          # via mypy
 urllib3==1.25.3           # via requests
 virtualenv==16.6.1        # via pre-commit
+webencodings==0.5.1       # via bleach
+wheel==0.33.4
 yarl==1.3.0               # via aiohttp
 zipp==0.5.2               # via importlib-metadata
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools

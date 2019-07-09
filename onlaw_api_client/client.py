@@ -7,7 +7,7 @@ import aiohttp
 
 class Onlaw:
     auth_audience = 'https://api.onlaw.dk'
-    api_server_token: str = ''
+    _token: str = ''
     api_server_aquire_token_lock = asyncio.Lock()
 
     def __init__(
@@ -31,7 +31,7 @@ class Onlaw:
     async def execute(self, query: str, session: aiohttp.ClientSession, endpoint: str,
                       backoff_interval=1.0, max_retries=10):
 
-        if not Onlaw.api_server_token:
+        if not Onlaw._token:
             await self._get_token()
 
         status = -1
@@ -55,7 +55,7 @@ class Onlaw:
                 retries += 1
 
                 if status == 401:
-                    Onlaw.api_server_token = ''
+                    Onlaw._token = ''
                     await self._get_token()
 
                 if retries > max_retries or self.stop_retries(status):
@@ -74,9 +74,9 @@ class Onlaw:
                 audience=self.auth_audience,
                 grant_type='client_credentials'
             )
-            Onlaw.api_server_token = token_info['access_token']
+            Onlaw._token = token_info['access_token']
 
-            self.headers['Authorization'] = F'Bearer {Onlaw.api_server_token}'
+            self.headers['Authorization'] = F'Bearer {Onlaw._token}'
 
     @classmethod
     def stop_retries(cls, status: int) -> bool:
