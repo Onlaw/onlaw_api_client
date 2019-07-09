@@ -1,0 +1,8 @@
+autopep8
+flake8
+flake8-mypy
+mypy
+pip-tools
+pre-commit
+
+-r requirements.in
