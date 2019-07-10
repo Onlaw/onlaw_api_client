@@ -14,7 +14,8 @@ class Onlaw:
         self,
         client_id: str = None,
         client_secret: str = None,
-        domain: str = 'auth.onlaw.dk'
+        domain: str = 'auth.onlaw.dk',
+        endpoint: str = 'https://api.onlaw.dk/graphql'
     ):
         self.logger = logging.getLogger(__name__)
         if not client_id or not client_secret:
@@ -23,13 +24,18 @@ class Onlaw:
         self.client_id = client_id
         self.client_secret = client_secret
         self.auth_domain = domain
+        self.endpoint = endpoint
         self.headers = {
             'Accept': 'application/json',
             'content-type': 'application/json',
         }
 
-    async def execute(self, query: str, session: aiohttp.ClientSession, endpoint: str,
+    async def execute(self, query: str, session: aiohttp.ClientSession,
+                      endpoint: str = None,
                       backoff_interval=1.0, max_retries=10):
+
+        if not endpoint:
+            endpoint = self.endpoint
 
         if not Onlaw._token:
             await self._get_token()
@@ -50,8 +56,10 @@ class Onlaw:
                 if status == 200:
                     return json_response
 
-                self.logger.warning('non successfull post\n {}\n. status: {}'.format(json.dumps(query), status))
-                self.logger.warning('response from server:\n{}'.format(logger_response))
+                self.logger.warning('non successfull post\n {}\n. status: {}'.format(
+                    json.dumps(query), status))
+                self.logger.warning(
+                    'response from server:\n{}'.format(logger_response))
                 retries += 1
 
                 if status == 401:
@@ -61,7 +69,8 @@ class Onlaw:
                 if retries > max_retries or self.stop_retries(status):
                     response.raise_for_status()
 
-                self.logger.warning('Sleeping for {} s and try again'.format(backoff_interval))
+                self.logger.warning(
+                    'Sleeping for {} s and try again'.format(backoff_interval))
                 await asyncio.sleep(backoff_interval * retries)
 
     async def _get_token(self):
