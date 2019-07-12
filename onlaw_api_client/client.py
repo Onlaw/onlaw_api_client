@@ -60,7 +60,6 @@ class Onlaw:
                     json.dumps(query), status))
                 self.logger.warning(
                     'response from server:\n{}'.format(logger_response))
-                retries += 1
 
                 if status == 401:
                     Onlaw._token = ''
@@ -69,9 +68,10 @@ class Onlaw:
                 if retries > max_retries or self.stop_retries(status):
                     response.raise_for_status()
 
-                self.logger.warning(
-                    'Sleeping for {} s and try again'.format(backoff_interval))
-                await asyncio.sleep(backoff_interval * retries)
+                sleep_for: int = backoff_interval * retries
+                self.logger.warning('Sleeping for {} s and try again'.format(sleep_for))
+                await asyncio.sleep(sleep_for)
+                retries += 1
 
     async def _get_token(self):
         async with Onlaw.api_server_aquire_token_lock:
