@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="onlaw_api_client",
-    version="0.1.3",
+    version="0.1.4",
     author="Onlaw",
     author_email="jens@onlaw.dk",
     description="client for api.onlaw.dk",
