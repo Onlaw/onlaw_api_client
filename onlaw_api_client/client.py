@@ -48,7 +48,7 @@ class Onlaw:
             retries = 0
             query_dict: dict = {'query': query}
             if variables:
-                query_dict = {**query_dict, **variables}
+                query_dict['variables'] = variables
             async with session.post(endpoint, json=query_dict, headers=self.headers) as response:
                 status = response.status
 
