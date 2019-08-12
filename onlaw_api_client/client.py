@@ -30,7 +30,9 @@ class Onlaw:
             'content-type': 'application/json',
         }
 
-    async def execute(self, query: str, session: aiohttp.ClientSession,
+    async def execute(self, query: str,
+                      session: aiohttp.ClientSession,
+                      variables: str = '',
                       endpoint: str = None,
                       backoff_interval=1.0, max_retries=10):
 
@@ -44,7 +46,10 @@ class Onlaw:
 
         while status != 200:
             retries = 0
-            async with session.post(endpoint, json={'query': query}, headers=self.headers) as response:
+            query_dict: dict = {'query': query}
+            if variables:
+                query_dict['variables'] = variables
+            async with session.post(endpoint, json=query_dict, headers=self.headers) as response:
                 status = response.status
 
                 try:
