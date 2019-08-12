@@ -32,7 +32,7 @@ class Onlaw:
 
     async def execute(self, query: str,
                       session: aiohttp.ClientSession,
-                      variables: str = '',
+                      variables: dict = None,
                       endpoint: str = None,
                       backoff_interval=1.0, max_retries=10):
 
@@ -48,7 +48,7 @@ class Onlaw:
             retries = 0
             query_dict: dict = {'query': query}
             if variables:
-                query_dict['variables'] = variables
+                query_dict = {**query_dict, **variables}
             async with session.post(endpoint, json=query_dict, headers=self.headers) as response:
                 status = response.status
 
