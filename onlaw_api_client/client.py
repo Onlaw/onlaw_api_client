@@ -43,9 +43,9 @@ class Onlaw:
             await self._get_token()
 
         status = -1
+        retries: int = 0
 
         while status != 200:
-            retries = 0
             query_dict: dict = {'query': query}
             if variables:
                 query_dict['variables'] = variables
