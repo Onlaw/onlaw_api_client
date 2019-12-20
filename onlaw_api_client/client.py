@@ -34,14 +34,13 @@ class Onlaw:
                       session: aiohttp.ClientSession,
                       variables: dict = None,
                       endpoint: str = None,
-                      backoff_interval=1.0, max_retries=10):
+                      backoff_interval=1.0, max_retries=3,
+                      token: str = None):
 
         if not endpoint:
             endpoint = self.endpoint
 
-        if not Onlaw._token:
-            await self._get_token()
-
+        await self.handle_token_before_execute(token=token)
         status = -1
         retries: int = 0
 
@@ -78,6 +77,12 @@ class Onlaw:
                 await asyncio.sleep(sleep_for)
                 retries += 1
 
+    async def handle_token_before_execute(self, token: str = None):
+        if token:
+            self.set_authorization_header(token)
+        elif not Onlaw._token:
+            await self._get_token()
+
     async def _get_token(self):
         async with Onlaw.api_server_aquire_token_lock:
             get_token = GetToken(self.auth_domain, False)
@@ -90,7 +95,10 @@ class Onlaw:
             )
             Onlaw._token = token_info['access_token']
 
-            self.headers['Authorization'] = F'Bearer {Onlaw._token}'
+            self.set_authorization_header(Onlaw._token)
+
+    def set_authorization_header(self, token: str):
+        self.headers['Authorization'] = F'Bearer {token}'
 
     @classmethod
     def stop_retries(cls, status: int) -> bool:
