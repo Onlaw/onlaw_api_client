@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="onlaw_api_client",
-    version="0.1.12",
+    version="0.1.13",
     author="Onlaw",
     author_email="jens@onlaw.dk",
     description="client for api.onlaw.dk",
@@ -14,20 +14,13 @@ setuptools.setup(
     url="https://github.com/Onlaw/onlaw_api_client",
     packages=setuptools.find_packages(),
     install_requires=["aiohttp",
-                      "async",
                       "asyncio",
-                      "attrs",
                       "auth0-python",
-                      "certifi",
-                      "chardet",
-                      "idna",
-                      "multidict",
-                      "requests",
-                      "urllib3",
-                      "yarl"],
+                      "pyjwt"
+
+                      ],
     tests_require=["autopep8",
                    "flake8",
-                   "flake8-mypy",
                    "mypy",
                    "pip-tools",
                    "pre-commit",

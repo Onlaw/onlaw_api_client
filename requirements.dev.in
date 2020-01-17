@@ -1,5 +1,6 @@
 autopep8
 flake8
 mypy
+pre-commit
 
--r requirements.in
+-r requirements.txt
