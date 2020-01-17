@@ -29,3 +29,7 @@ For a minimal example see `examples/query.py`
 
 - build package (remember if neccesary to change version in `setup.py`): `make pypitest`
 - create new venv and activate it, and install package: `pip install --index-url https://test.pypi.org/simple/ onlaw_api_client --upgrade --extra-index-url https://test.pypi.org/simple/ --no-deps`. Note the `--no-deps` arguments which prevent dependencies to be installed. test.pypi does not have all packages and hence installation from test.pypi most likely fail.
+
+### publish new package
+- bump version number in `setup.py`
+- `make pypiprod`
