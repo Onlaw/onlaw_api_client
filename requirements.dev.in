@@ -2,5 +2,8 @@ autopep8
 flake8
 mypy
 pre-commit
+setuptools
+twine
+wheel
 
 -r requirements.txt

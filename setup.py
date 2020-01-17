@@ -17,7 +17,6 @@ setuptools.setup(
                       "asyncio",
                       "auth0-python",
                       "pyjwt"
-
                       ],
     tests_require=["autopep8",
                    "flake8",
